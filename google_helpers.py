@@ -1,4 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import logging
+
 import requests
 import sys
 import json
@@ -9,7 +12,7 @@ log = logging.getLogger('test.log')
 # input json example:
 # fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}')
 # output json
-def fetch_google_places(args1, latitude=None, longitude=None, content_type=None, keyword=None, radius=None):
+def fetch_google_places(args1, latitude=None, longitude=None, content_type=None, keyword=None, radius='3000'):
     args = json.loads(args1)
     if args.get('latitude'):
         latitude = args['latitude']
@@ -43,7 +46,10 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
 def translate_to_english(sentence):
     encoded_sentence = urllib.quote_plus(sentence)
     key = 'trnsl.1.1.20170408T140154Z.8efdaac6447952eb.3511edc0fcd5a38e5b92f9ec1a91266d894c1943'
-    url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key='+key+'&lang=en&text='+encoded_sentence
+    url = 'https://translate.yandex.net/api/v1.5/tr.json/detect?key='+key+'&text='+encoded_sentence+'&hint=sr,hr,bs,mk,bg,el,sl'
+    response = requests.get(url)
+    lang = response.json().get('lang')
+    url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key='+key+'&lang='+lang+'-en&text='+encoded_sentence
     response = requests.get(url)
     return response.json()
 
@@ -67,4 +73,6 @@ if __name__ == "__main__":
     #args = sys.argv[1]
     #print(fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}'))
     #print(translate_to_english("kakvo je vrijeme u splitu"))
-    print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
+#    a =
+    print(fetch_google_places(' {"latitude": "15.2384", "longitude": "45.1235234", "type": "restaurant"}'))
+    # print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
