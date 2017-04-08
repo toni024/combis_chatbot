@@ -1,1 +1,0 @@
-u template-combis/static unijet naredbu => $ln ../build/static/ . -s
