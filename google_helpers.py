@@ -13,7 +13,7 @@ log = logging.getLogger('test.log')
 # fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}')
 # output json
 def fetch_google_places(args1, latitude=None, longitude=None, content_type=None, keyword=None, radius='3000'):
-    args = json.loads(args1)
+    args = args1
     if args.get('latitude'):
         latitude = args['latitude']
     if args.get('longitude'):
@@ -35,8 +35,24 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
     if keyword and keyword != '':
         url += '&keyword='+keyword
     url += '&key='+api_key
-    response = requests.get(url)
-    return response.json()
+    response = requests.get(url).json()
+    ret_arr = []
+    if response.get('results'):
+        res_arr = response.get('results')
+        for res in res_arr:
+            name = res.get('name')
+            address = res.get('vicinity')
+            if res.get('photos'):
+                photo_ref = res.get('photos')[0].get('photo_reference')
+                link = 'https://maps.googleapis.com/maps/api/place/photo?photoreference='+photo_ref+'&maxwidth=300&key='+api_key
+                item = {
+                    'name': name,
+                    'address': address,
+                    'link': link
+                }
+                ret_arr.append(item)
+        return ret_arr
+    return []
 
 
 # input string example:
@@ -55,7 +71,7 @@ def translate_to_english(sentence):
 
 
 def get_weather_forecast(args, latitude=None, longitude=None):
-    json_args = json.loads(args)
+    json_args = args
     if json_args.get('latitude'):
         latitude = json_args['latitude']
     if json_args.get('longitude'):
@@ -64,15 +80,24 @@ def get_weather_forecast(args, latitude=None, longitude=None):
     url = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat='+latitude+'&lon='+longitude+'&APPID='+key
     response = requests.get(url)
     forecast = response.json().get('list')
-    print(forecast[0])
-    return response.json()
+    ret_arr = []
+    for day in forecast:
+        item = {
+            'temp': round(day.get('temp').get('day') - 273.15),
+            'description': day.get('weather')[0].get('main'),
+            'link': 'http://openweathermap.org/img/w/'+day.get('weather')[0].get('icon')+'.png'
+        }
+        ret_arr.append(item)
+    return ret_arr
 
 
 
 if __name__ == "__main__":
+    pass
     #args = sys.argv[1]
     #print(fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}'))
     #print(translate_to_english("kakvo je vrijeme u splitu"))
 #    a =
-    print(fetch_google_places(' {"latitude": "15.2384", "longitude": "45.1235234", "type": "restaurant"}'))
+#    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
+ #   print(fetch_google_places('{"latitude":"45.2384","longitude":"15.1235234","type":"restaurant"}'))
     # print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
