@@ -7,6 +7,10 @@ import { bindActionCreators } from "redux"
 class SideBar extends React.Component {
 
     componentDidMount() {
+
+
+
+
         // fetch("https://ipinfo.io").then(res => res.json().then(data => { console.log(data) }))
         // navigator.geolocation.getCurrentPosition((position) => {
         //     console.log(position.coords.latitude.toFixed(2) + "," + position.coords.longitude.toFixed(2))
