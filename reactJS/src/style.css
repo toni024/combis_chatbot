@@ -58,13 +58,11 @@ body {
 }
 
 .chaty {
-  /*padding: 10px;*/
-  /*margin: 10px;*/
+  padding: 10px;
   position: relative;
+  height: calc(100% - 99px);
   overflow-y: scroll;
 }
-
-.scroll {}
 
 .container .right .write {
   position: absolute;
