@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import logging
+
 import requests
 import sys
 import json
@@ -13,7 +13,7 @@ log = logging.getLogger('test.log')
 # fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}')
 # output json
 def fetch_google_places(args1, latitude=None, longitude=None, content_type=None, keyword=None, radius='3000'):
-    args = json.loads(args1)
+    args = args1
     if args.get('latitude'):
         latitude = args['latitude']
     if args.get('longitude'):
@@ -35,8 +35,24 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
     if keyword and keyword != '':
         url += '&keyword='+keyword
     url += '&key='+api_key
-    response = requests.get(url)
-    return response.json()
+    response = requests.get(url).json()
+    ret_arr = []
+    if response.get('results'):
+        res_arr = response.get('results')
+        for res in res_arr:
+            name = res.get('name')
+            address = res.get('vicinity')
+            if res.get('photos'):
+                photo_ref = res.get('photos')[0].get('photo_reference')
+                link = 'https://maps.googleapis.com/maps/api/place/photo?photoreference='+photo_ref+'&maxwidth=300&key='+api_key
+                item = {
+                    'name': name,
+                    'address': address,
+                    'link': link
+                }
+                ret_arr.append(item)
+        return ret_arr
+    return []
 
 
 # input string example:
@@ -54,17 +70,8 @@ def translate_to_english(sentence):
     return response.json()
 
 
-def translate_to_base_lang(sentence, lang):
-    encoded_sentence = urllib.quote_plus(sentence)
-    key = 'trnsl.1.1.20170408T140154Z.8efdaac6447952eb.3511edc0fcd5a38e5b92f9ec1a91266d894c1943'
-    url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=' + key + '&lang=en-'+lang+'&text=' + encoded_sentence
-    response = requests.get(url)
-    log.info('test')
-    return response.json()
-
-
 def get_weather_forecast(args, latitude=None, longitude=None):
-    json_args = json.loads(args)
+    json_args = args
     if json_args.get('latitude'):
         latitude = json_args['latitude']
     if json_args.get('longitude'):
@@ -83,9 +90,13 @@ def get_weather_forecast(args, latitude=None, longitude=None):
     return ret_arr
 
 
+
 if __name__ == "__main__":
+    pass
     #args = sys.argv[1]
-    print(fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"sightseeing"}'))
-    #print(translate_to_english("đe kafana"))
-    #print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
-    #print(translate_to_base_lang("we are in the very hell of a position", "hr"))
+    #print(fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}'))
+    #print(translate_to_english("kakvo je vrijeme u splitu"))
+#    a =
+#    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
+ #   print(fetch_google_places('{"latitude":"45.2384","longitude":"15.1235234","type":"restaurant"}'))
+    # print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
