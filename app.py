@@ -100,13 +100,13 @@ def check():
                      'longitude': data['longitude'],
                      'type': 'night_club'})}
             return json.dumps(t)
-        elif intent == "accomodation":
+        elif intent == "accommodation":
             t = {'text': 'null',
                  'weather': 'null',
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
-                     'type': 'museum|casino'})}
+                     'type': 'lodging'})}
             return json.dumps(t)
         elif intent == "siteseeing":
             t = {'text': 'null',
