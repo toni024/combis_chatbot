@@ -58,13 +58,11 @@ body {
 }
 
 .chaty {
-  /*padding: 10px;*/
-  /*margin: 10px;*/
+  padding: 10px;
   position: relative;
+  height: calc(100% - 99px);
   overflow-y: scroll;
 }
-
-.scroll {}
 
 .container .right .write {
   position: absolute;
@@ -94,7 +92,7 @@ body {
 
 .container .right .write .write-link.send {
   display: inline-block;
-  float: right;
+  /*float: right;*/
   width: 20px;
   height: 42px;
   margin-right: 11px;
