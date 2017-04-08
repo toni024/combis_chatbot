@@ -84,7 +84,8 @@ def get_weather_forecast(args, latitude=None, longitude=None):
     for day in forecast:
         item = {
             'temp': round(day.get('temp').get('day') - 273.15),
-            'description': day.get('weather')[0].get('main')
+            'description': day.get('weather')[0].get('main'),
+            'link': 'http://openweathermap.org/img/w/'+day.get('weather')[0].get('icon')+'.png'
         }
         ret_arr.append(item)
     return ret_arr
