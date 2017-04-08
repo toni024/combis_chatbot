@@ -60,7 +60,7 @@ body {
 .chaty {
   padding: 10px;
   position: relative;
-  height: calc(100% - 99px);
+  height: calc(100% - 120px);
   overflow-y: scroll;
 }
 
@@ -92,7 +92,7 @@ body {
 
 .container .right .write .write-link.send {
   display: inline-block;
-  /*float: right;*/
+  float: right;
   width: 20px;
   height: 42px;
   margin-right: 11px;
@@ -123,25 +123,25 @@ body {
   transform: rotate(29deg) skew(-35deg);
 }
 
-.container .right .bubble.you {
+.container .right .bubble.me {
   float: left;
   color: #fff;
   background-color: #00b0ff;
   align-self: flex-start;
 }
 
-.container .right .bubble.you:before {
+.container .right .bubble.me:before {
   left: -3px;
   background-color: #00b0ff;
 }
 
-.container .right .bubble.me {
+.container .right .bubble.you {
   float: right;
   color: #1a1a1a;
   background-color: #eceff1;
 }
 
-.container .right .bubble.me:before {
+.container .right .bubble.youme:before {
   right: -3px;
   background-color: #eceff1;
 }

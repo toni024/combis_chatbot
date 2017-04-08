@@ -16,9 +16,6 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        $('.chaty').stop().animate({
-            scrollTop: $('.chaty')[0].scrollHeight
-        }, 100)
         this.setState({ msg_txt: "" })
     }
 
@@ -27,12 +24,11 @@ class Chat extends React.Component {
     }
 
     handleKeyPress(e) {
-        // $('.chaty').stop().animate({
-        //     scrollTop: $('.chaty')[0].scrollHeight
-        // }, 100)
+        $(".chaty").stop().animate({
+            scrollTop: $(".chaty")[0].scrollHeight
+        }, 100)
         if (e.key === "Enter")
             this.props.addMessage(this.state.msg_txt)
-
     }
 
     render() {
@@ -51,11 +47,26 @@ class Chat extends React.Component {
                                 {this.props.chat.messages.map((item, i) => (
                                     <div key={i} >
                                         {item.id === "user" ?
-                                            <div className="bubble you">
-                                                {item.message}
+                                            < div className="bubble me" >
+                                                <div>
+                                                    {console.log("aaaa", !(item.message.weather))}
+                                                    {!item.message.google_maps ? "" :
+                                                        < div >
+                                                            {item.message.google_maps.link ? <img src={item.message.google_maps.link} alt="" /> : ""}
+                                                            {item.message.google_maps.name ? <div>{item.message.google_maps.name}</div> : ""}
+                                                            {item.message.google_maps.address ? <div>{item.message.google_maps.address}</div> : ""}
+                                                        </div>}
+                                                    {!(item.message.weather) ? "" :
+                                                        <div>
+                                                            {console.log("ssss", item.message.weather)}
+                                                            {item.message.weather.length > 0 ? <div>{item.message.weather[0].temp} ℃</div> : "asd"}
+                                                            {item.message.weather.length > 0 ? <div>{item.message.weather[0].desc}</div> : "asds"}
+                                                        </div>}
+                                                    {item.message.text ? <div>{item.message.text}</div> : ""}
+                                                </div>
                                             </div> :
-                                            <div className="bubble me">
-                                                {item.message}
+                                            <div className="bubble you">
+                                                {item.message.text}
                                             </div>
                                         }
                                     </div>

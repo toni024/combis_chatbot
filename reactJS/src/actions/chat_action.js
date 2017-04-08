@@ -10,14 +10,15 @@ export const addMessage = (message, lon, lat) => {
                     console.log("od bosaka", data)
                     dispatch({
                         type: "ADD_MESSAGE",
-                        payload: { message: data.text, id: "bot" },
+                        payload: { message: data, id: "bot" },
                     })
                 })
             }
         })
+        var data = { text: message }
         dispatch({
             type: "ADD_MESSAGE",
-            payload: { message, id: "user" },
+            payload: { message: data, id: "user" },
         })
     }
 }
