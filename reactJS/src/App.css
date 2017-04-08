@@ -28,10 +28,42 @@ body {
 }
 
 .sidebar {
-  color: #fff;
+  color: #333;
+  font-size: 20px;
   float: left;
   height: 92vh;
-  background: #22A3A4;
-  width: 10%;
-  text-align: center;
+  background: #ccc;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat {
+  width: 80%;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input {
+  position: absolute;
+  bottom: 20px;
+}
+
+.display_msg {
+  width: 100%;
+  margin: 10px;
+}
+
+.user_msg {
+  /*float: right;*/
+  color: red;
+}
+
+.bot_msg {
+  /*float: left;*/
+  color: blue;
 }
