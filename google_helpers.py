@@ -72,24 +72,24 @@ def translate_to_english(sentence):
 
 def get_weather_forecast(args, latitude=None, longitude=None):
     icon_map = {
-        "01d": "<i class=\"wi wi-day-sunny\"></i>",
-        "02d": "<i class=\"wi wi-day-cloudy\"></i>",
-        "03d": "<i class=\"wi wi-cloud\"></i>",
-        "04d": "<i class=\"wi wi-cloudy\"></i>",
-        "09d": "<i class=\"wi wi-rain\"></i>",
-        "10d": "<i class=\"wi wi-day-rain\"></i>",
-        "11d": "<i class=\"wi wi-thunderstorm\"></i>",
-        "13d": "<i class=\"wi wi-snow\"></i>",
-        "50d": "<i class=\"wi wi-fog\"></i>",
-        "01n": "<i class=\"wi wi-night-clear\"></i>",
-        "02n": "<i class=\"wi wi-night-alt-cloudy\"></i>",
-        "03n": "<i class=\"wi wi-cloud\"></i>",
-        "04n": "<i class=\"wi wi-cloudy\"></i>",
-        "09n": "<i class=\"wi wi-rain\"></i>",
-        "10n": "<i class=\"wi wi-night-alt-rain\"></i>",
-        "11n": "<i class=\"wi wi-thunderstorm\"></i>",
-        "13n": "<i class=\"wi wi-snow\"></i>",
-        "50n": "<i class=\"wi wi-fog\"></i>",
+        "01d": "<i className=\"wi wi-day-sunny\"></i>",
+        "02d": "<i className=\"wi wi-day-cloudy\"></i>",
+        "03d": "<i className=\"wi wi-cloud\"></i>",
+        "04d": "<i className=\"wi wi-cloudy\"></i>",
+        "09d": "<i className=\"wi wi-rain\"></i>",
+        "10d": "<i className=\"wi wi-day-rain\"></i>",
+        "11d": "<i className=\"wi wi-thunderstorm\"></i>",
+        "13d": "<i className=\"wi wi-snow\"></i>",
+        "50d": "<i className=\"wi wi-fog\"></i>",
+        "01n": "<i className=\"wi wi-night-clear\"></i>",
+        "02n": "<i className=\"wi wi-night-alt-cloudy\"></i>",
+        "03n": "<i className=\"wi wi-cloud\"></i>",
+        "04n": "<i className=\"wi wi-cloudy\"></i>",
+        "09n": "<i className=\"wi wi-rain\"></i>",
+        "10n": "<i className=\"wi wi-night-alt-rain\"></i>",
+        "11n": "<i className=\"wi wi-thunderstorm\"></i>",
+        "13n": "<i className=\"wi wi-snow\"></i>",
+        "50n": "<i className=\"wi wi-fog\"></i>",
     }
     json_args = args
     if json_args.get('latitude'):
@@ -121,4 +121,4 @@ if __name__ == "__main__":
 #    a =
 #    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
  #   print(fetch_google_places('{"latitude":"45.2384","longitude":"15.1235234","type":"restaurant"}'))
-    # print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
+    print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
