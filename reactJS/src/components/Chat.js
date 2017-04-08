@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { addMessage } from "../actions/chat_action"
+import $ from "jquery"
 import "../reset.css"
 import "../style.css"
 
@@ -15,8 +16,10 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
+        $('.chaty').stop().animate({
+            scrollTop: $('.chaty')[0].scrollHeight
+        }, 100)
         this.setState({ msg_txt: "" })
-        // document.getElementById("")
     }
 
     handleChange(e) {
@@ -24,8 +27,12 @@ class Chat extends React.Component {
     }
 
     handleKeyPress(e) {
+        // $('.chaty').stop().animate({
+        //     scrollTop: $('.chaty')[0].scrollHeight
+        // }, 100)
         if (e.key === "Enter")
             this.props.addMessage(this.state.msg_txt)
+
     }
 
     render() {
@@ -40,7 +47,7 @@ class Chat extends React.Component {
                     </div>
                     <div className="chaty">
                         {!this.props.chat.messages.length ? <h2>No messages...</h2> :
-                            <div className="scroll">
+                            <div>
                                 {this.props.chat.messages.map((item, i) => (
                                     <div key={i} >
                                         {item.id === "user" ?
