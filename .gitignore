@@ -1,2 +1,6 @@
 /reactJS/node_modules
 
+bin
+include
+lib
+.idea
