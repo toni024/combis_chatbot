@@ -2,6 +2,8 @@ import React from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { addMessage } from "../actions/chat_action"
+import "../reset.css"
+import "../style.css"
 
 class Chat extends React.Component {
 
@@ -13,31 +15,51 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ msg_txt: "" });
+        this.setState({ msg_txt: "" })
+        // document.getElementById("")
     }
 
     handleChange(e) {
-        this.setState({ msg_txt: e.target.value });
+        this.setState({ msg_txt: e.target.value })
+    }
+
+    handleKeyPress(e) {
+        if (e.key === "Enter")
+            this.props.addMessage(this.state.msg_txt)
     }
 
     render() {
         return (
-            <div className="chat">
-                {!this.props.chat.messages.length ? <h2>No messages....</h2> :
-                    <div>
-                        {this.props.chat.messages.map((item, i) => (
-                            <div key={i} className="display_msg">
-                                {/*{console.log(item.message)}*/}
-                                {item.id === "user" ?
-                                    <span className="user_msg">{item.message}</span> :
-                                    <span className="bot_msg">{item.message}</span>
-                                }
+            <div className="container">
+                <div className="left">
+
+                </div>
+                <div className="right">
+                    <div className="top">
+                        <span><strong>CHATBOT</strong></span>
+                    </div>
+                    <div className="chaty">
+                        {!this.props.chat.messages.length ? <h2>No messages...</h2> :
+                            <div className="scroll">
+                                {this.props.chat.messages.map((item, i) => (
+                                    <div key={i} >
+                                        {item.id === "user" ?
+                                            <div className="bubble you">
+                                                {item.message}
+                                            </div> :
+                                            <div className="bubble me">
+                                                {item.message}
+                                            </div>
+                                        }
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>}
-                <div className="input">
-                    <input type="text" onChange={this.handleChange.bind(this)} />
-                    <button className="btn btn-primary" onClick={() => this.props.addMessage(this.state.msg_txt)}>send</button>
+                        }
+                    </div>
+                    <div className="write">
+                        <input type="text" onKeyPress={this.handleKeyPress.bind(this)} onChange={this.handleChange.bind(this)} />
+                        <a href="#" className="write-link send" onClick={() => this.props.addMessage(this.state.msg_txt, this.props.chat.lon, this.props.chat.lat)}></a>
+                    </div>
                 </div>
             </div>
         )
