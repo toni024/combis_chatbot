@@ -30,17 +30,23 @@ class Chat extends React.Component {
         }, 100)
         if (e.key === "Enter")
             this.props.addMessage(this.state.msg_txt, this.props.chat.lon, this.props.chat.lat)
+        this.setState({ msg_txt: "" })
     }
 
     render() {
         return (
-            <div className="container">
-                <div className="left">
-
+            <div className="containera">
+                <div className="left hidden-xs">
+                    <div className="cont_wrap">
+                        <img src="http://paybefore.com/wp-content/uploads/2016/11/Robot_icon.png" alt="" />
+                        <h2>
+                            I'm' Bruno!
+                        </h2>
+                    </div>
                 </div>
                 <div className="right">
                     <div className="top">
-                        <span><strong>CHATBOT</strong></span>
+                        <span><strong>ChatBot</strong></span>
                     </div>
                     <div className="chaty">
                         {!this.props.chat.messages.length ? <h2>No messages...</h2> :
@@ -96,7 +102,7 @@ class Chat extends React.Component {
                         }
                     </div>
                     <div className="write">
-                        <input type="text" onKeyPress={this.handleKeyPress.bind(this)} onChange={this.handleChange.bind(this)} />
+                        <input type="text" placeholder="Enter message.." onKeyPress={this.handleKeyPress.bind(this)} onChange={this.handleChange.bind(this)} />
                         <a href="#" className="write-link send" onClick={() => this.props.addMessage(this.state.msg_txt, this.props.chat.lon, this.props.chat.lat)}></a>
                     </div>
                 </div>

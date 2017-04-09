@@ -24,7 +24,6 @@ export const addMessage = (message, lon, lat) => {
 }
 
 export const setLocation = (lon, lat, city) => {
-    console.log()
     return {
         type: "SET_LOCATION",
         payload: { lon, lat, city }
