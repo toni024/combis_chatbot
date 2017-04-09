@@ -16,8 +16,8 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-# app = Flask(__name__, static_url_path='/build')
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+#app = Flask(__name__)
 debug = True
 
 
@@ -28,7 +28,7 @@ def index():
     # req = requests.get("https://api.wit.ai/message?v=20160526&q=apartman",
     #                    headers=header)
     # return json.dumps(req.json())
-    return send_from_directory('build/', 'index.html')
+    return send_from_directory('static', 'index.html')
 
 
 @app.route("/check", methods=['POST', 'GET'])
@@ -38,10 +38,12 @@ def check():
         return json.dumps({'text': 'hello'})
     else:
         data = request.data
+        #log.debug(data)
         text = json.loads(data)['message']
         data = json.loads(data)
         data['longitude'] = '15.966568'
         data['latitude'] = '45.815399'
+        
         text = text.encode('utf-8')
         if text is None:
             return json.dumps({'text': 'Plz write something',
@@ -188,7 +190,7 @@ def getNumber(data):
         x = re.search(r'time\swithin\s(\d{1,3})\s*days', temp)
         if x:
             match = x.group(1)
-            return match
+            return int(match)
     else:
         # log.debug("getIntent: " + json.dumps(temp))
         return temp[0].get("value")
