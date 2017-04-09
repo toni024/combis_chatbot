@@ -1,5 +1,5 @@
 const initialState = {
-    messages: [{ id: "user", message: { text: "nesta" } }, { id: "bot", message: { text: "nesta drugo" } }],
+    messages: [],
     lon: null,
     lat: null,
     city: null,

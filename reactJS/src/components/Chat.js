@@ -16,21 +16,29 @@ class Chat extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.setState({ msg_txt: "" })
-    }
-
     handleChange(e) {
         this.setState({ msg_txt: e.target.value })
     }
 
     handleKeyPress(e) {
+        if (e.key === "Enter")
+            this.submitHandle()
+    }
+
+    componentDidUpdate(prevProps, prevState) {
         $(".chaty").stop().animate({
             scrollTop: $(".chaty")[0].scrollHeight
         }, 100)
-        if (e.key === "Enter")
-            this.props.addMessage(this.state.msg_txt, this.props.chat.lon, this.props.chat.lat)
+    }
+
+
+    submitHandle() {
+        $(".chaty").stop().animate({
+            scrollTop: $(".chaty")[0].scrollHeight
+        }, 100)
+
         this.setState({ msg_txt: "" })
+        this.props.addMessage(this.state.msg_txt, this.props.chat.lon, this.props.chat.lat)
     }
 
     render() {
@@ -56,11 +64,11 @@ class Chat extends React.Component {
                                         {!(item.id === "user") ?
                                             < div  > {/*bot*/}
                                                 {item.message.google_maps ? <div>
-                                                    {typeof item.message.google_maps != "object" ? "" :
+                                                    {typeof item.message.google_maps !== "object" ? "" :
                                                         < div >
                                                             {item.message.google_maps.length > 0 ? <div>
                                                                 {item.message.google_maps.map((place, i) => (
-                                                                    <div className="bubble me">
+                                                                    <div key={i} className="bubble me">
                                                                         <img src={place.link} alt="" />
                                                                         <h3>{place.name}</h3>
                                                                         {place.address}
@@ -72,14 +80,14 @@ class Chat extends React.Component {
                                                 </div> : ""}
                                                 <div>
                                                     {item.message.weather ? <div>
-                                                        {typeof item.message.weather != "object" ? "" :
+                                                        {typeof item.message.weather !== "object" ? "" :
                                                             <div >
                                                                 {item.message.weather.length > 0 ? <div>
                                                                     {item.message.weather.map((day, i) => (
-                                                                        <div className="bubble me">
+                                                                        <div className="bubble me" key={i}>
                                                                             {(this.state.date.getDate() + i) > 9 ?
                                                                                 (this.state.date.getDate() + i) : "0" + (this.state.date.getDate() + i)}.
-                                                                                {this.state.date.getMonth() > 9 ? this.state.date.getMonth() : "0" + this.state.date.getMonth()}
+                                                                                {this.state.date.getMonth() + 1 > 9 ? this.state.date.getMonth() : "0" + this.state.date.getMonth()}
                                                                             <i className={day.i}></i>
                                                                             {day.temp}℃ {day.description}
                                                                         </div>
@@ -88,7 +96,7 @@ class Chat extends React.Component {
                                                             </div>}
                                                     </div> : ""}
                                                     {item.message.text ? <div >
-                                                        {item.message.text != "null" ? <div className="bubble me">{item.message.text}</div> : " "}
+                                                        {item.message.text !== "null" ? <div className="bubble me">{item.message.text}</div> : " "}
                                                     </div> : ""}
                                                 </div>
                                             </div> :
@@ -102,8 +110,8 @@ class Chat extends React.Component {
                         }
                     </div>
                     <div className="write">
-                        <input type="text" placeholder="Enter message.." onKeyPress={this.handleKeyPress.bind(this)} onChange={this.handleChange.bind(this)} />
-                        <a href="#" className="write-link send" onClick={() => this.props.addMessage(this.state.msg_txt, this.props.chat.lon, this.props.chat.lat)}></a>
+                        <input type="text" required placeholder="Enter message.." onKeyPress={this.handleKeyPress.bind(this)} onChange={this.handleChange.bind(this)} value={this.state.msg_txt} />
+                        <a href="#" className="write-link send" onClick={this.submitHandle.bind(this)}></a>
                     </div>
                 </div>
             </div>

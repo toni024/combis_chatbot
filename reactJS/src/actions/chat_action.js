@@ -1,4 +1,5 @@
 export const addMessage = (message, lon, lat) => {
+    if (message === "") return
     return (dispatch) => {
         fetch("/check", {
             method: "POST",
