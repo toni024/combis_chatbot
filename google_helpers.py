@@ -27,13 +27,14 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
     if args.get('location'):
         location = args['location']
     api_key = 'AIzaSyB2T3V59a4UT2--vEUKw-KVI78lueAy9ds'
-    if location:
+    if location and len(location) >= 4:
         url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+location+'&key='+api_key
         response = requests.get(url).json()
         if response.get('results'):
-            res_arr = response.get('results')
-            latitude = res_arr[0].get('location').get('lat')
-            longitude = res_arr[0].get('location').get('lon')
+            res = response.get('results')[0]
+            # print(res)
+            latitude = str(res.get('geometry').get('location').get('lat'))
+            longitude = str(res.get('geometry').get('location').get('lng'))
     url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
     if latitude and longitude and latitude != ''and longitude != '':
         url += 'location='+latitude+','+longitude
@@ -94,7 +95,7 @@ def translate_to_native(lan):
     return response.json().get("text")[0]
 
 
-def get_weather_forecast(args, latitude=None, longitude=None):
+def get_weather_forecast(args, latitude=None, longitude=None, days=1, location=None):
     icon_map = {
         "01d": "wi wi-day-sunny",
         "02d": "wi wi-day-cloudy",
@@ -116,10 +117,24 @@ def get_weather_forecast(args, latitude=None, longitude=None):
         "50n": "wi wi-fog",
     }
     json_args = args
+    log.debug(json_args)
     if json_args.get('latitude'):
         latitude = json_args['latitude']
     if json_args.get('longitude'):
         longitude = json_args['longitude']
+    if json_args.get('days'):
+        days = json_args['days']
+    if json_args.get('location'):
+        location = json_args['location']
+    api_key = 'AIzaSyB2T3V59a4UT2--vEUKw-KVI78lueAy9ds'
+    if location and len(location) >= 4:
+        url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&key=' + api_key
+        response = requests.get(url).json()
+        if response.get('results'):
+            res = response.get('results')[0]
+            # print(res)
+            latitude = str(res.get('geometry').get('location').get('lat'))
+            longitude = str(res.get('geometry').get('location').get('lng'))
     key = '71db68a35d054e9190cace3261ddfb97'
     url = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat='+latitude+'&lon='+longitude+'&APPID='+key
     response = requests.get(url)
@@ -133,14 +148,16 @@ def get_weather_forecast(args, latitude=None, longitude=None):
             'i': icon_map.get(day.get('weather')[0].get('icon'))
         }
         ret_arr.append(item)
-    return ret_arr
+
+    return ret_arr[:days]
+
 
 
 
 if __name__ == "__main__":
     pass
     #args = sys.argv[1]
-    print(fetch_google_places({"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}))
+    print(fetch_google_places({"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000","location":"Belgrade"}))
     #print(translate_to_english("kakvo je vrijeme u splitu"))
 #    a =
 #    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
