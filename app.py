@@ -155,6 +155,7 @@ def check():
             w = {"text": "null",
                  "google_maps": "null",
                  "weather": google_helpers.get_weather_forecast({
+                     'location': place,
                      'days': daysNumber,
                      'latitude': data['latitude'],
                      'longitude': data['longitude']})}

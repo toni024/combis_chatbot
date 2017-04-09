@@ -95,7 +95,7 @@ def translate_to_native(lan):
     return response.json().get("text")[0]
 
 
-def get_weather_forecast(args, latitude=None, longitude=None):
+def get_weather_forecast(args, latitude=None, longitude=None, days=1, location=None):
     icon_map = {
         "01d": "wi wi-day-sunny",
         "02d": "wi wi-day-cloudy",
@@ -122,6 +122,10 @@ def get_weather_forecast(args, latitude=None, longitude=None):
         latitude = json_args['latitude']
     if json_args.get('longitude'):
         longitude = json_args['longitude']
+    if json_args.get('days'):
+        days = json_args['days']
+    if json_args.get('location'):
+        location = json_args['location']
     key = '71db68a35d054e9190cace3261ddfb97'
     url = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat='+latitude+'&lon='+longitude+'&APPID='+key
     response = requests.get(url)
@@ -136,8 +140,8 @@ def get_weather_forecast(args, latitude=None, longitude=None):
         }
         ret_arr.append(item)
 
-    return ret_arr[:json_args.get("days")]
-#return ret_arr
+    return ret_arr[:days]
+
 
 
 
