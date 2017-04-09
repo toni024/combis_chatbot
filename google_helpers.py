@@ -32,7 +32,7 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
         response = requests.get(url).json()
         if response.get('results'):
             res = response.get('results')[0]
-            print(res)
+            # print(res)
             latitude = str(res.get('geometry').get('location').get('lat'))
             longitude = str(res.get('geometry').get('location').get('lng'))
     url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
@@ -117,6 +117,7 @@ def get_weather_forecast(args, latitude=None, longitude=None):
         "50n": "wi wi-fog",
     }
     json_args = args
+    log.debug(json_args)
     if json_args.get('latitude'):
         latitude = json_args['latitude']
     if json_args.get('longitude'):
@@ -134,7 +135,9 @@ def get_weather_forecast(args, latitude=None, longitude=None):
             'i': icon_map.get(day.get('weather')[0].get('icon'))
         }
         ret_arr.append(item)
-    return ret_arr
+
+    return ret_arr[:json_args.get("days")]
+#return ret_arr
 
 
 

@@ -44,13 +44,13 @@ def check():
         text = text.encode('utf-8')
         log.debug("text read: "+text)
 
-        
+
         # text = urllib.quote_plus(text)
         # log.debug("text after quote plus: "+text)
 
         english = google_helpers.translate_to_english(text)
         nativeLang = english.get("lang").split("-")[0]  # TODO may fall
-        log.debug(english)
+        #log.debug(english)
         text = english.get("text")[0]
 
         # a = {'text': text, 'to': 'en'}
@@ -64,12 +64,15 @@ def check():
 
         log.debug("enblish translation: " + text)
         datae = sendToBot(text)
+        # log.debug(datae)
+        daysNumber = getNumber(datae)
         intent = getIntent(datae)
         place = getPlace(datae)
-        log.debug("intent: {0}    place: {1}".format(intent,
-                                                     place))
+        log.debug("intent: {0}    place: {1}    number: {2}".format(intent,
+                                                                    place,
+                                                                    daysNumber))
         if intent is None:
-            return json.dumps({"text": "null"})
+            return json.dumps({"text": "Error"})
 
         # brute force FTW !
         if intent == "hospital":
@@ -78,6 +81,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': intent})}
             return json.dumps(t)
         elif intent == "food":
@@ -86,6 +90,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': 'restaurant'})}
             return json.dumps(t)
         elif intent == "drink":
@@ -94,6 +99,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': 'cafe'})}
             return json.dumps(t)
         elif intent == "nightlife":
@@ -102,6 +108,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': 'night_club'})}
             return json.dumps(t)
         elif intent == "accommodation":
@@ -110,6 +117,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': 'lodging'})}
             return json.dumps(t)
         elif intent == "siteseeing":
@@ -118,6 +126,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': 'museum|casino'})}
             return json.dumps(t)
         elif intent == "police":
@@ -126,6 +135,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': intent})}
             return json.dumps(t)
         elif intent == "atm":
@@ -134,6 +144,7 @@ def check():
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
+                     'location': place,
                      'type': intent})}
             return json.dumps(t)
         elif intent == "greeting":
@@ -144,9 +155,9 @@ def check():
             w = {"text": "null",
                  "google_maps": "null",
                  "weather": google_helpers.get_weather_forecast({
+                     'days': daysNumber,
                      'latitude': data['latitude'],
                      'longitude': data['longitude']})}
-            log.debug(w)
             return json.dumps(w)
 
         log.debug("intent retuned: " + intent)
@@ -163,16 +174,26 @@ def getPlace(data):
         return temp[0].get("value")
 
 
+def getNumber(data):
+    temp = data.get("entities").get("number")
+    if temp is None:
+        # log.debug("getIntent is None")
+        return None
+    else:
+        # log.debug("getIntent: " + json.dumps(temp))
+        return temp[0].get("value")
+    
+
 def getIntent(data):
     # print(datae)
     # print(datae.get("entities").get("intent")[0])
     # print(type(json.dumps({'text': datae.get("entities").get("intent")})))
     temp = data.get("entities").get("intent")
     if temp is None:
-        log.debug("getIntent is None")
+        # log.debug("getIntent is None")
         return None
     else:
-        log.debug("getIntent: " + json.dumps(temp))
+        # log.debug("getIntent: " + json.dumps(temp))
         return temp[0].get("value")
 
 
