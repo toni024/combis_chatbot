@@ -79,6 +79,18 @@ def translate_to_english(sentence):
     return response.json()
 
 
+def translate_to_native(lan):
+    sentence = "hi, i'm bot try something related to food, police, weather..."
+    encoded_sentence = urllib.quote_plus(sentence)
+    key = 'trnsl.1.1.20170408T140154Z.8efdaac6447952eb.3511edc0fcd5a38e5b92f9ec1a91266d894c1943'
+    url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key='+key+'&lang=en-'+lan+'&text='+encoded_sentence
+    response = requests.get(url)
+    lang = response.json().get('lang')
+    #url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key='+key+'&lang='+lang+'-en&text='+encoded_sentence
+    response = requests.get(url)
+    return response.json().get("text")[0]
+
+
 def get_weather_forecast(args, latitude=None, longitude=None):
     icon_map = {
         "01d": "wi wi-day-sunny",
