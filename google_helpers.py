@@ -126,6 +126,15 @@ def get_weather_forecast(args, latitude=None, longitude=None, days=1, location=N
         days = json_args['days']
     if json_args.get('location'):
         location = json_args['location']
+    api_key = 'AIzaSyB2T3V59a4UT2--vEUKw-KVI78lueAy9ds'
+    if location and len(location) >= 4:
+        url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&key=' + api_key
+        response = requests.get(url).json()
+        if response.get('results'):
+            res = response.get('results')[0]
+            # print(res)
+            latitude = str(res.get('geometry').get('location').get('lat'))
+            longitude = str(res.get('geometry').get('location').get('lng'))
     key = '71db68a35d054e9190cace3261ddfb97'
     url = 'http://api.openweathermap.org/data/2.5/forecast/daily?lat='+latitude+'&lon='+longitude+'&APPID='+key
     response = requests.get(url)
