@@ -157,9 +157,9 @@ def get_weather_forecast(args, latitude=None, longitude=None, days=1, location=N
 if __name__ == "__main__":
     pass
     #args = sys.argv[1]
-    print(fetch_google_places({"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000","location":"Belgrade"}))
+    #print(fetch_google_places({"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000","location":"Belgrade"}))
     #print(translate_to_english("kakvo je vrijeme u splitu"))
 #    a =
 #    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
    # print(fetch_google_places({"latitude":"45.2384","longitude":"15.1235234","type":"restaurant"}))
-#    print(get_weather_forecast({"latitude":"45.815399","longitude":"15.966568"}))
+    print(get_weather_forecast({"latitude":"45.815399","longitude":"15.966568","location":"Zagreb"}))

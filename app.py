@@ -6,6 +6,7 @@
 #     return app.send_static_file(path)
 
 from flask import Flask, send_from_directory, request
+import re
 import json
 import requests
 import google_helpers
@@ -42,6 +43,10 @@ def check():
         data['longitude'] = '15.966568'
         data['latitude'] = '45.815399'
         text = text.encode('utf-8')
+        if text is None:
+            return json.dumps({'text': 'Plz write something',
+                               'google_maps': "null",
+                               "weather": "null"})
         log.debug("text read: "+text)
 
 
@@ -176,7 +181,19 @@ def getPlace(data):
 
 
 def getNumber(data):
+    log.debug(data)
+
     temp = data.get("entities").get("number")
+    if temp is None:
+        temp = data.get("_text")
+        x = re.search(r'time\swithin\s(\d{1,3})\s*days', temp)
+        match = x.group(0)
+        log.debug(temp)
+        if temp is None:
+            return None
+        else:
+            temp.split(" ")[3]
+    log.debug(temp)
     if temp is None:
         # log.debug("getIntent is None")
         return None
