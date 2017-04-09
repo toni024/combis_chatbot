@@ -186,6 +186,8 @@ def getNumber(data):
     temp = data.get("entities").get("number")
     if temp is None:
         temp = data.get("_text")
+        x = re.search(r'time\swithin\s(\d{1,3})\s*days', temp)
+        match = x.group(0)
         log.debug(temp)
         if temp is None:
             return None
