@@ -27,13 +27,13 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
     if args.get('location'):
         location = args['location']
     api_key = 'AIzaSyB2T3V59a4UT2--vEUKw-KVI78lueAy9ds'
-    if location:
+    if location and len(location) >= 4:
         url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+location+'&key='+api_key
         response = requests.get(url).json()
         if response.get('results'):
             res_arr = response.get('results')
-            latitude = res_arr[0].get('location').get('lat')
-            longitude = res_arr[0].get('location').get('lon')
+            latitude = res_arr[0].get('geometry').get('location').get('lat')
+            longitude = res_arr[0].get('geometry').get('location').get('lon')
     url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
     if latitude and longitude and latitude != ''and longitude != '':
         url += 'location='+latitude+','+longitude
