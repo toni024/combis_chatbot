@@ -31,9 +31,10 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
         url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+location+'&key='+api_key
         response = requests.get(url).json()
         if response.get('results'):
-            res_arr = response.get('results')
-            latitude = res_arr[0].get('geometry').get('location').get('lat')
-            longitude = res_arr[0].get('geometry').get('location').get('lon')
+            res = response.get('results')[0]
+            print(res)
+            latitude = str(res.get('geometry').get('location').get('lat'))
+            longitude = str(res.get('geometry').get('location').get('lng'))
     url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
     if latitude and longitude and latitude != ''and longitude != '':
         url += 'location='+latitude+','+longitude
@@ -140,7 +141,7 @@ def get_weather_forecast(args, latitude=None, longitude=None):
 if __name__ == "__main__":
     pass
     #args = sys.argv[1]
-    print(fetch_google_places({"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}))
+    print(fetch_google_places({"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000","location":"Belgrade"}))
     #print(translate_to_english("kakvo je vrijeme u splitu"))
 #    a =
 #    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
