@@ -12,7 +12,7 @@ log = logging.getLogger('test.log')
 # input json example:
 # fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}')
 # output json
-def fetch_google_places(args1, latitude=None, longitude=None, content_type=None, keyword=None, radius='3000'):
+def fetch_google_places(args1, latitude=None, longitude=None, content_type=None, keyword=None, radius='3000', location=None):
     args = args1
     if args.get('latitude'):
         latitude = args['latitude']
@@ -24,7 +24,16 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
         content_type = args['type']
     if args.get('keyword'):
         keyword = args['keyword']
+    if args.get('location'):
+        location = args['location']
     api_key = 'AIzaSyB2T3V59a4UT2--vEUKw-KVI78lueAy9ds'
+    if location:
+        url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+location+'&key='+api_key
+        response = requests.get(url).json()
+        if response.get('results'):
+            res_arr = response.get('results')
+            latitude = res_arr[0].get('location').get('lat')
+            longitude = res_arr[0].get('location').get('lon')
     url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
     if latitude and longitude and latitude != ''and longitude != '':
         url += 'location='+latitude+','+longitude
@@ -121,4 +130,4 @@ if __name__ == "__main__":
 #    a =
 #    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
  #   print(fetch_google_places('{"latitude":"45.2384","longitude":"15.1235234","type":"restaurant"}'))
-    print(get_weather_forecast('{"latitude":"45.815399","longitude":"15.966568"}'))
+    print(get_weather_forecast({"latitude":"45.815399","longitude":"15.966568"}))
