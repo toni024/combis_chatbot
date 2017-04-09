@@ -48,18 +48,21 @@ def fetch_google_places(args1, latitude=None, longitude=None, content_type=None,
     ret_arr = []
     if response.get('results'):
         res_arr = response.get('results')
+        i = 0
         for res in res_arr:
             name = res.get('name')
             address = res.get('vicinity')
             if res.get('photos'):
-                photo_ref = res.get('photos')[0].get('photo_reference')
-                link = 'https://maps.googleapis.com/maps/api/place/photo?photoreference='+photo_ref+'&maxwidth=300&key='+api_key
-                item = {
-                    'name': name,
-                    'address': address,
-                    'link': link
-                }
-                ret_arr.append(item)
+                if i < 5:
+                    photo_ref = res.get('photos')[0].get('photo_reference')
+                    link = 'https://maps.googleapis.com/maps/api/place/photo?photoreference='+photo_ref+'&maxwidth=300&key='+api_key
+                    item = {
+                        'name': name,
+                        'address': address,
+                        'link': link
+                    }
+                    ret_arr.append(item)
+            i += 1
         return ret_arr
     return []
 
@@ -137,9 +140,9 @@ def get_weather_forecast(args, latitude=None, longitude=None):
 if __name__ == "__main__":
     pass
     #args = sys.argv[1]
-    #print(fetch_google_places('{"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}'))
+    print(fetch_google_places({"latitude":"45.815399","longitude":"15.966568","type":"restaurant","radius":"5000"}))
     #print(translate_to_english("kakvo je vrijeme u splitu"))
 #    a =
 #    print(fetch_google_places('{"latitude":"15.2384","longitude":"45.1235234","type":"sightseeing"}'))
- #   print(fetch_google_places('{"latitude":"45.2384","longitude":"15.1235234","type":"restaurant"}'))
-    print(get_weather_forecast({"latitude":"45.815399","longitude":"15.966568"}))
+   # print(fetch_google_places({"latitude":"45.2384","longitude":"15.1235234","type":"restaurant"}))
+#    print(get_weather_forecast({"latitude":"45.815399","longitude":"15.966568"}))
