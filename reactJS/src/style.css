@@ -7,7 +7,7 @@ body {
   background-color: #f8f8f8;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
-  background-image: url("http://s17.postimg.org/fr01hfe33/image.jpg");
+  background-image: url("../background.jpg");
   background-size: cover;
   background-repeat: none;
 }
@@ -135,6 +135,11 @@ body {
   background-color: #00b0ff;
 }
 
+.container .right .bubble.me i {
+  font-size: 25px;
+  margin: 10px;
+}
+
 .container .right .bubble.you {
   float: right;
   color: #1a1a1a;
@@ -144,6 +149,11 @@ body {
 .container .right .bubble.youme:before {
   right: -3px;
   background-color: #eceff1;
+}
+
+img {
+  width: auto;
+  height: 80px;
 }
 
 @keyframes slideFromLeft {
