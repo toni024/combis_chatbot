@@ -49,6 +49,8 @@ def check():
         # log.debug("text after quote plus: "+text)
 
         english = google_helpers.translate_to_english(text)
+        nativeLang = english.get("lang").split("-")[0]  # TODO may fall
+        log.debug(english)
         text = english.get("text")[0]
 
         # a = {'text': text, 'to': 'en'}
@@ -62,8 +64,10 @@ def check():
 
         log.debug("enblish translation: " + text)
         datae = sendToBot(text)
-        log.debug(json.dumps(datae))
         intent = getIntent(datae)
+        place = getPlace(datae)
+        log.debug("intent: {0}    place: {1}".format(intent,
+                                                     place))
         if intent is None:
             return json.dumps({"text": "null"})
 
@@ -100,13 +104,13 @@ def check():
                      'longitude': data['longitude'],
                      'type': 'night_club'})}
             return json.dumps(t)
-        elif intent == "accomodation":
+        elif intent == "accommodation":
             t = {'text': 'null',
                  'weather': 'null',
                  'google_maps': google_helpers.fetch_google_places({
                      'latitude': data['latitude'],
                      'longitude': data['longitude'],
-                     'type': 'museum|casino'})}
+                     'type': 'lodging'})}
             return json.dumps(t)
         elif intent == "siteseeing":
             t = {'text': 'null',
@@ -133,7 +137,7 @@ def check():
                      'type': intent})}
             return json.dumps(t)
         elif intent == "greeting":
-            return json.dumps({"text": "hi",
+            return json.dumps({"text": google_helpers.translate_to_native(nativeLang),
                                "google_maps": "null",
                                "weather": "null"})
         elif intent == "weather":
@@ -147,6 +151,16 @@ def check():
 
         log.debug("intent retuned: " + intent)
         return json.dumps({'text': intent})
+
+
+def getPlace(data):
+    temp = data.get("entities").get("location")
+    if temp is None:
+        log.debug("getIntent is None")
+        return None
+    else:
+        log.debug("getIntent: " + json.dumps(temp))
+        return temp[0].get("value")
 
 
 def getIntent(data):
