@@ -179,7 +179,6 @@ def getPlace(data):
         log.debug("getIntent: " + json.dumps(temp))
         return temp[0].get("value")
 
-
 def getNumber(data):
     log.debug(data)
 
@@ -187,20 +186,13 @@ def getNumber(data):
     if temp is None:
         temp = data.get("_text")
         x = re.search(r'time\swithin\s(\d{1,3})\s*days', temp)
-        match = x.group(0)
-        log.debug(temp)
-        if temp is None:
-            return None
-        else:
-            temp.split(" ")[3]
-    log.debug(temp)
-    if temp is None:
-        # log.debug("getIntent is None")
-        return None
+        if x:
+            match = x.group(1)
+            return match
     else:
         # log.debug("getIntent: " + json.dumps(temp))
         return temp[0].get("value")
-    
+
 
 def getIntent(data):
     # print(datae)
