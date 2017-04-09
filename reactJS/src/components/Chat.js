@@ -1,7 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import { addMessage } from "../actions/chat_action"
+import { addMessage, setLocation } from "../actions/chat_action"
 import $ from "jquery"
 import "../reset.css"
 import "../style.css"
@@ -14,6 +14,14 @@ class Chat extends React.Component {
             msg_txt: "",
             date: new Date(),
         }
+    }
+
+    componentDidMount() {
+        $.getJSON('https://ipinfo.io', (data) => {
+            var loc = data.loc.split(",")
+            this.props.setLocation(loc[0].slice(0, 4), loc[1].slice(0, 4), data.city)
+        })
+
     }
 
     handleChange(e) {
@@ -128,6 +136,7 @@ function mapeStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         addMessage,
+        setLocation,
     }, dispatch)
 }
 
