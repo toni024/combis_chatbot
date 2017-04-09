@@ -62,8 +62,10 @@ def check():
 
         log.debug("enblish translation: " + text)
         datae = sendToBot(text)
-        log.debug(json.dumps(datae))
         intent = getIntent(datae)
+        place = getPlace(datae)
+        log.debug("intent: {0}    place: {1}".format(intent,
+                                                     place))
         if intent is None:
             return json.dumps({"text": "null"})
 
@@ -147,6 +149,16 @@ def check():
 
         log.debug("intent retuned: " + intent)
         return json.dumps({'text': intent})
+
+
+def getPlace(data):
+    temp = data.get("entities").get("location")
+    if temp is None:
+        log.debug("getIntent is None")
+        return None
+    else:
+        log.debug("getIntent: " + json.dumps(temp))
+        return temp[0].get("value")
 
 
 def getIntent(data):
